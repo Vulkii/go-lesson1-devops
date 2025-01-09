@@ -22,7 +22,10 @@ func main() {
 func checkServerStats() error {
 	url := "http://srv.msk01.gigacorp.local/_stats"
 
-	resp, _ := http.Get(url)
+	resp, err := http.Get(url)
+	if err != nil {
+		return fmt.Errorf("error with request: %v\n", err)
+	}
 	defer resp.Body.Close()
 
 	body, _ := io.ReadAll(resp.Body)
@@ -76,7 +79,7 @@ func checkServerStats() error {
 	}
 
 	if loadAverage > 30 {
-		fmt.Printf("Load Average is too high: %.0ff\n", loadAverage)
+		fmt.Printf("Load Average is too high: %.0f\n", loadAverage)
 	}
 
 	if memTotal > 0 {
@@ -90,7 +93,7 @@ func checkServerStats() error {
 		diskUsedPct := diskUsed / diskTotal * 100
 		if diskUsedPct > 90 {
 			freeBytes := diskTotal - diskUsed
-			freeMB := freeBytes / 1024.0 / 1024.0
+			freeMB := freeBytes / 1024 / 1024
 			fmt.Printf("Free disk space is too low: %.0f Mb left\n", freeMB)
 		}
 	}
@@ -99,8 +102,8 @@ func checkServerStats() error {
 		netUsedPct := netUsed / netTotal * 100
 		if netUsedPct > 90 {
 			freeNet := netTotal - netUsed
-			freeMbit := (freeNet * 8) / (1024.0 * 1024.0)
-			fmt.Printf("Network bandwidth usage high: %.0ff Mbit/s available\n", freeMbit)
+			freeMbit := (freeNet * 8) / (1024 * 1024)
+			fmt.Printf("Network bandwidth usage high: %.0f Mbit/s available\n", freeMbit)
 		}
 	}
 
