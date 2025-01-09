@@ -85,7 +85,7 @@ func checkServerStats() error {
 	if memTotal > 0 {
 		memUsage := memUsed / memTotal * 100
 		if memUsage > 80 {
-			fmt.Printf("Memory usage too high: %.0f%%\n", memUsage)
+			fmt.Printf("Memory usage too high: %d%%\n", int(memUsage))
 		}
 	}
 
@@ -93,8 +93,8 @@ func checkServerStats() error {
 		diskUsedPct := diskUsed / diskTotal * 100
 		if diskUsedPct > 90 {
 			freeBytes := diskTotal - diskUsed
-			freeMB := freeBytes / 1024.0 / 1024.0
-			fmt.Printf("Free disk space is too low: %.0f Mb left\n", freeMB)
+			freeMB := freeBytes / 1024 / 1024
+			fmt.Printf("Free disk space is too low: %d Mb left\n", int(freeMB))
 		}
 	}
 
@@ -102,8 +102,8 @@ func checkServerStats() error {
 		netUsedPct := netUsed / netTotal * 100
 		if netUsedPct > 90 {
 			freeNet := netTotal - netUsed
-			freeMbit := (freeNet * 8) / (1024.0 * 1024.0)
-			fmt.Printf("Network bandwidth usage high: %.0f Mbit/s available\n", freeMbit)
+			freeMbit := freeNet / 1_000_000.0
+			fmt.Printf("Network bandwidth usage high: %d Mbit/s available\n", int(freeMbit))
 		}
 	}
 
