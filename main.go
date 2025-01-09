@@ -24,7 +24,7 @@ func checkServerStats() error {
 
 	resp, err := http.Get(url)
 	if err != nil {
-		return fmt.Errorf("error with request: %v\n", err)
+		return fmt.Errorf("error with request: %v", err)
 	}
 	defer resp.Body.Close()
 
@@ -93,7 +93,7 @@ func checkServerStats() error {
 		diskUsedPct := diskUsed / diskTotal * 100
 		if diskUsedPct > 90 {
 			freeBytes := diskTotal - diskUsed
-			freeMB := freeBytes / 1024 / 1024
+			freeMB := freeBytes / 1024.0 / 1024.0
 			fmt.Printf("Free disk space is too low: %.0f Mb left\n", freeMB)
 		}
 	}
@@ -102,7 +102,7 @@ func checkServerStats() error {
 		netUsedPct := netUsed / netTotal * 100
 		if netUsedPct > 90 {
 			freeNet := netTotal - netUsed
-			freeMbit := (freeNet * 8) / (1024 * 1024)
+			freeMbit := (freeNet * 8) / (1024.0 * 1024.0)
 			fmt.Printf("Network bandwidth usage high: %.0f Mbit/s available\n", freeMbit)
 		}
 	}
