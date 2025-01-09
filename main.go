@@ -29,7 +29,7 @@ func checkServerStats() error {
 
 	values := strings.Split(strings.TrimSpace(string(body)), ",")
 	if len(values) != 7 {
-		return fmt.Errorf("There are %d digits, not 7.", len(values))
+		return fmt.Errorf("there are %d digits, not 7", len(values))
 	}
 
 	loadAverageStr := values[0]
@@ -42,47 +42,47 @@ func checkServerStats() error {
 
 	loadAverage, err := strconv.ParseFloat(loadAverageStr, 64)
 	if err != nil {
-		return fmt.Errorf("Error with load average: %w", err)
+		return fmt.Errorf("error with load average: %w", err)
 	}
 
 	memTotal, err := strconv.ParseFloat(memTotalStr, 64)
 	if err != nil {
-		return fmt.Errorf("Error with memTotal: %w", err)
+		return fmt.Errorf("error with memTotal: %w", err)
 	}
 
 	memUsed, err := strconv.ParseFloat(memUsedStr, 64)
 	if err != nil {
-		return fmt.Errorf("Error with memUsed: %w", err)
+		return fmt.Errorf("error with memUsed: %w", err)
 	}
 
 	diskTotal, err := strconv.ParseFloat(diskTotalStr, 64)
 	if err != nil {
-		return fmt.Errorf("Error with парсинга diskTotal: %w", err)
+		return fmt.Errorf("error with парсинга diskTotal: %w", err)
 	}
 
 	diskUsed, err := strconv.ParseFloat(diskUsedStr, 64)
 	if err != nil {
-		return fmt.Errorf("Error with парсинга diskUsed: %w", err)
+		return fmt.Errorf("error with парсинга diskUsed: %w", err)
 	}
 
 	netTotal, err := strconv.ParseFloat(netTotalStr, 64)
 	if err != nil {
-		return fmt.Errorf("Error with парсинга netTotal: %w", err)
+		return fmt.Errorf("error with парсинга netTotal: %w", err)
 	}
 
 	netUsed, err := strconv.ParseFloat(netUsedStr, 64)
 	if err != nil {
-		return fmt.Errorf("Error with парсинга netUsed: %w", err)
+		return fmt.Errorf("error with парсинга netUsed: %w", err)
 	}
 
 	if loadAverage > 30 {
-		fmt.Printf("Load Average is too high: %.2f\n", loadAverage)
+		fmt.Printf("Load Average is too high: %.0ff\n", loadAverage)
 	}
 
 	if memTotal > 0 {
 		memUsage := memUsed / memTotal * 100
 		if memUsage > 80 {
-			fmt.Printf("Memory usage too high: %.2f%%\n", memUsage)
+			fmt.Printf("Memory usage too high: %.0f%%\n", memUsage)
 		}
 	}
 
@@ -100,7 +100,7 @@ func checkServerStats() error {
 		if netUsedPct > 90 {
 			freeNet := netTotal - netUsed
 			freeMbit := (freeNet * 8) / (1024.0 * 1024.0)
-			fmt.Printf("Network bandwidth usage high: %.2f Mbit/s available\n", freeMbit)
+			fmt.Printf("Network bandwidth usage high: %.0ff Mbit/s available\n", freeMbit)
 		}
 	}
 
